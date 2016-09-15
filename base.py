@@ -1,9 +1,9 @@
-from pysmartprice.smartparser import(
+from msp_scraper_lib.smartparser import(
     PriceListParser,
     SearchParser,
     SellerParser
 )
-from pysmartprice.constants import SMARTPRICE_ATTRS
+from msp_scraper_lib.constants import SMARTPRICE_ATTRS
 
 
 class SmartPrice(object):

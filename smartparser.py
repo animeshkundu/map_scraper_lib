@@ -1,10 +1,10 @@
-from pysmartprice.abstract import(
+from msp_scraper_lib.abstract import(
     BaseParser,
     ParserMixin
 )
-from pysmartprice.helpers import scrape
+from msp_scraper_lib.helpers import scrape
 from bs4 import BeautifulSoup
-from pysmartprice.results import SmartPriceSeller
+from msp_scraper_lib.results import SmartPriceSeller
 
 
 class PriceListParser(BaseParser, ParserMixin):

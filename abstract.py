@@ -1,9 +1,9 @@
 import multiprocessing
 from bs4 import BeautifulSoup
 
-from pysmartprice.results import SmartPriceResult
-from pysmartprice.helpers import scrape, scrape_helper
-from pysmartprice import constants
+from msp_scraper_lib.results import SmartPriceResult
+from msp_scraper_lib.helpers import scrape, scrape_helper
+from msp_scraper_lib import constants
 
 
 class BaseParser(object):
