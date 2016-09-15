@@ -1,4 +1,4 @@
-import multiprocessing
+from gevent.pool import Pool
 from bs4 import BeautifulSoup
 
 from msp_scraper_lib.results import SmartPriceResult
@@ -60,7 +60,7 @@ class ParserMixin(object):
             page_urls.append((self._make_url(url), params))
 
         # Scrape pages in parallel
-        pool = multiprocessing.Pool(processes=multiprocessing.cpu_count()*2)
+        pool = Pool(10)
 
         for page in pool.map(scrape_helper, page_urls):
             self.soup = BeautifulSoup(page, 'lxml')
