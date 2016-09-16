@@ -1,4 +1,5 @@
 from msp_scraper_lib.smartparser import(
+    MappedListParser,
     PriceListParser,
     SearchParser,
     SellerParser
@@ -9,7 +10,7 @@ from msp_scraper_lib.constants import SMARTPRICE_ATTRS
 class SmartPrice(object):
 
     def parser_results(self, product, **kwargs):
-        parser = PriceListParser(product, **kwargs)
+        parser = MappedListParser(product, **kwargs)
         return parser.price_results
 
     def __getattr__(self, attr):
@@ -19,6 +20,10 @@ class SmartPrice(object):
 
         setattr(self, attr, self.parser_results(SMARTPRICE_ATTRS[attr]))
         return getattr(self, attr)
+
+    def list(self, url, **kwargs) :
+        parser = PriceListParser(url, **kwargs)
+        return parser.price_results
 
     def search(self, search_key):
         params = dict(s=search_key, page=1)

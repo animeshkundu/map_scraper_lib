@@ -10,7 +10,13 @@ class BaseParser(object):
     def __init__(self, mapper, **kwargs):
         self.mapper = mapper
         self.params = kwargs
-        self.url = constants.URL_MAPPER[self.mapper]
+        self.url = None
+        
+        if self.mapper in constants.URL_MAPPER :
+            self.url = constants.URL_MAPPER[self.mapper]
+        else :
+            self.url = self.mapper[len(constants.SMARTPRICE_WEB_URL):]
+
         self.response = scrape(self._make_url(self.url), **kwargs)
         self.soup = BeautifulSoup(self.response, 'lxml')
         self.result = [
@@ -59,8 +65,11 @@ class ParserMixin(object):
                 params.update({'page': page})
             page_urls.append((self._make_url(url), params))
 
+        print page_urls
+
         # Scrape pages in parallel
         pool = Pool(10)
+        i = 0
 
         for page in pool.map(scrape_helper, page_urls):
             self.soup = BeautifulSoup(page, 'lxml')

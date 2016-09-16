@@ -7,10 +7,19 @@ from bs4 import BeautifulSoup
 from msp_scraper_lib.results import SmartPriceSeller
 
 
-class PriceListParser(BaseParser, ParserMixin):
+class MappedListParser(BaseParser, ParserMixin):
     @property
     def get_paged_url(self):
         i = self.url.find(self.mapper)
+        paged_url = '{}pages/{}'.format(self.url[:i], self.url[i:])
+        return paged_url
+
+
+class PriceListParser(BaseParser, ParserMixin):
+    @property
+    def get_paged_url(self):
+        search_term = '/pricelist/'
+        i = self.url.find(search_term) + len(search_term)
         paged_url = '{}pages/{}'.format(self.url[:i], self.url[i:])
         return paged_url
 
