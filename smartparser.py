@@ -33,7 +33,6 @@ class SearchParser(BaseParser, ParserMixin):
 # SCRAPE SELLERS
 class SellerParser(object):
     def __init__(self, url, *args, **kwargs):
-        print url
         self.url = url
         self.response = scrape(self.url, **kwargs)
         self.soup = BeautifulSoup(self.response, 'lxml')
@@ -43,12 +42,16 @@ class SellerParser(object):
             ]
 
     def get_product_attrs(self, item):
+        price = item.find('span', attrs={'class': 'prc-grid__prc-val'}).text
+        image = item.find('img', {'class': 'prc-grid__logo'})
+        color = item.get('data-color')
+
         return dict(
-            logo=item.find('img', {'class': 'prc-grid__logo'}).get('src'),
-            name=item.find('img', {'class': 'prc-grid__logo'}).get('alt'),
-            price=item.find('span', attrs={'class': 'prc-grid__prc-val'}).text,
+            logo=(image.get('src') if image else None),
+            name=(image.get('alt') if image else None),
+            color=(color.split(';') if color else color),
+            price=(price[1:] if price else price),
             rating=item.get('data-rating'),
-            color=item.get('data-color').split(';')
         )
 
     @property

@@ -40,3 +40,7 @@ class SmartPrice(object):
             setattr(product, 'sellers', seller_parser.result)
 
         return products
+
+    def seller(self, url) :
+        seller_parser = SellerParser(url)
+        return seller_parser.result

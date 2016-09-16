@@ -65,8 +65,6 @@ class ParserMixin(object):
                 params.update({'page': page})
             page_urls.append((self._make_url(url), params))
 
-        print page_urls
-
         # Scrape pages in parallel
         pool = Pool(10)
         i = 0
