@@ -49,9 +49,9 @@ class SellerParser(object):
         return dict(
             logo=(image.get('src').encode('utf-8') if image else None),
             name=(image.get('alt').encode('utf-8') if image else None),
-            color=(color.split(';').encode('utf-8') if color else color),
-            price=(price[1:] if price else price).encode('utf-8')
+            price=(price[1:] if price else price).encode('utf-8'),
             rating=item.get('data-rating').encode('utf-8'),
+            color = (color.encode('utf-8') if color else color)
         )
 
     @property
