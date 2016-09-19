@@ -45,13 +45,26 @@ class SellerParser(object):
         price = item.find('span', attrs={'class': 'prc-grid__prc-val'}).text
         image = item.find('img', {'class': 'prc-grid__logo'})
         color = item.get('data-color')
+        seller_url = item.find('div', attrs={'class': 'js-prc-tbl__gts-btn'})
+
+        if seller_url :
+            seller_url = seller_url.get('data-url')
+            response = scrape(seller_url)
+            soup = BeautifulSoup(response, 'lxml')
+            seller_url = soup.find('a', attrs={'class' : 'store-link'}).get('href')
+
+            if 'mysmartprice.go2cloud.org' in seller_url :
+                search_string = '&url='
+                index = seller_url.find(search_string) + len(search_string)
+                seller_url = seller_url[index:]
 
         return dict(
             logo=(image.get('src').encode('utf-8') if image else None),
             name=(image.get('alt').encode('utf-8') if image else None),
             price=(price[1:] if price else price).encode('utf-8'),
             rating=item.get('data-rating').encode('utf-8'),
-            color = (color.encode('utf-8') if color else color)
+            color = (color.encode('utf-8') if color else color),
+            url = seller_url
         )
 
     @property
