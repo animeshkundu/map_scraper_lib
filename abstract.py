@@ -38,13 +38,13 @@ class BaseParser(object):
 class ParserMixin(object):
     def get_product_attrs(self, item):
         return dict(
-            img=item.find('img').get('src'),
-            title=item.find('a', attrs={'class': 'prdct-item__name'}).text,
+            img=item.find('img').get('src').encode('utf-8'),
+            title=item.find('a', attrs={'class': 'prdct-item__name'}).text.encode('utf-8'),
             url=item.find(
-                'a', attrs={'class': 'prdct-item__name'}).get('href'),
+                'a', attrs={'class': 'prdct-item__name'}).get('href').encode('utf-8'),
             best_price=item.find(
-                'span', attrs={'class': 'prdct-item__prc-val'}).text,
-            product_id=item.get('data-mspid')
+                'span', attrs={'class': 'prdct-item__prc-val'}).text.encode('utf-8'),
+            product_id=item.get('data-mspid').encode('utf-8')
         )
 
     @property
