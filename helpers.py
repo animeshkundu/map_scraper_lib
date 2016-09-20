@@ -1,8 +1,11 @@
 import requests
+import fake_useragent
 
+ua = fake_useragent.UserAgent()
 
 def scrape(url, **kwargs):
-    resp = requests.get(url, params=kwargs)
+    headers = {'User-Agent': ua.random}
+    resp = requests.get(url, headers=headers, params=kwargs)
     return resp.text
 
 
