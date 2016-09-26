@@ -5,7 +5,7 @@ ua = fake_useragent.UserAgent()
 
 def scrape(url, **kwargs):
     headers = {'User-Agent': ua.random}
-    resp = requests.get(url, headers=headers, params=kwargs)
+    resp = requests.get(url, headers=headers, timeout=(3.05, 15), params=kwargs)
     return resp.text
 
 
