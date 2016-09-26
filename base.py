@@ -2,9 +2,10 @@ from msp_scraper_lib.smartparser import(
     MappedListParser,
     PriceListParser,
     SearchParser,
-    SellerParser
+    SellerParser,
+    MatchParser
 )
-from msp_scraper_lib.constants import SMARTPRICE_ATTRS
+from msp_scraper_lib.constants import SMARTPRICE_ATTRS, SMARTPRICE_WEB_URL, URL_MAPPER
 
 
 class SmartPrice(object):
@@ -44,3 +45,10 @@ class SmartPrice(object):
     def seller(self, url) :
         seller_parser = SellerParser(url)
         return seller_parser.result
+
+    def match(self, search_key) :
+        match = MatchParser(search_key)
+        return match.get_matching_url()
+
+    def pidurl(self, pid) :
+        return SMARTPRICE_WEB_URL + URL_MAPPER['all-sellers'] + '?mspid=' + str(pid) + '&data=table'

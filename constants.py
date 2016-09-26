@@ -35,6 +35,8 @@ URL_MAPPER = {
     'sharp-tv': 'electronics/pricelist/sharp-tv-price-list-in-india.html',
 
     'search': 'msp/search/msp_search_new.php',
+    'complete': 'msp/search/auto_suggest_search.php',
+    'all-sellers': 'mobile/ptrows_details.php',
 }
 
 

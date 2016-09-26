@@ -1,4 +1,4 @@
-from gevent.pool import Pool
+from gevent.threadpool import ThreadPool
 from bs4 import BeautifulSoup
 
 from msp_scraper_lib.results import SmartPriceResult
@@ -66,7 +66,7 @@ class ParserMixin(object):
             page_urls.append((self._make_url(url), params))
 
         # Scrape pages in parallel
-        pool = Pool(10)
+        pool = ThreadPool(20)
         i = 0
 
         for page in pool.map(scrape_helper, page_urls):

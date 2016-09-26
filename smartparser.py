@@ -1,9 +1,14 @@
+from bs4 import BeautifulSoup
+from urllib import unquote_plus
+from pylev import levenshtein
+from json import loads as json_decode
+
 from msp_scraper_lib.abstract import(
     BaseParser,
     ParserMixin
 )
 from msp_scraper_lib.helpers import scrape
-from bs4 import BeautifulSoup
+from msp_scraper_lib.constants import SMARTPRICE_WEB_URL, URL_MAPPER
 from msp_scraper_lib.results import SmartPriceSeller
 
 
@@ -72,3 +77,29 @@ class SellerParser(object):
         html = self.soup.findAll(
             'div', attrs={'class': 'prc-grid clearfix'})
         return html
+
+
+class MatchParser(object) :
+
+    def __init__(self, search_key, *args, **kwargs) :
+        self.url = SMARTPRICE_WEB_URL + URL_MAPPER['complete'] + '?term=' + search_key
+        self.term = unquote_plus(search_key)
+        self.response = scrape(self.url, **kwargs)
+        try :
+            self.response = json_decode(self.response)
+        except Exception, e :
+            print e
+    
+    def get_matching_url(self) :
+        products = self.response.get('products')
+        results = dict()
+
+        for p in products :
+            title = p.get('value') 
+            ed = levenshtein(self.term, title)
+            results[ed] = p.get('url')
+
+        response = sorted(results)
+        response = results.get(response[0])
+        index = response.find('?')
+        return response[:index]
